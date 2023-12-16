@@ -37,6 +37,11 @@ class DataManager:
         }
 
         response = requests.post(SHEETY_ENDPOINT_USERS, json=user, headers=self.headers, auth=self.basic_auth)
+
+    def get_user_emails(self):
+        users = requests.get(SHEETY_ENDPOINT_USERS, headers=self.headers, auth=self.basic_auth).json()["users"]
+        emails = [entry["email"] for entry in users]
+        return emails
     
     def fill_in_iata(self):
         for entry in self.sheet_data:

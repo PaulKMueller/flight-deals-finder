@@ -46,7 +46,7 @@ class FlightSearch:
         for flight in kiwi_response.json()["data"]:
             if float(flight["price"]) < maximum_price:
                 print(f"Flight {flight['id']} to {flight['cityTo']}")
-                cheap_flights.append(flight)
+                cheap_flights.append(flight["id"])
             else:
                 print("Too expensive")
 
