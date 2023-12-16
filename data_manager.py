@@ -8,7 +8,8 @@ with open("config.yml") as file:
     SHEETY_USER =  config["SHEETY_USER"]
     SHEETY_PASSWORD = config["SHEETY_PASSWORD"]
     AUTH_SHEETY = config["AUTH_SHEETY"]
-    SHEETY_ENDPOINT = config["SHEETY_ENDPOINT"]
+    SHEETY_ENDPOINT_PRICES = config["SHEETY_ENDPOINT_PRICES"]
+    SHEETY_ENDPOINT_USERS = config["SHEETY_ENDPOINT_USERS"]
     KIWI_API_KEY = config["KIWI_API_KEY"]
     KIWI_ENDPOINT = config["KIWI_ENDPOINT"]
     HOMETOWN_IATA = config["HOMETOWN_IATA"]
@@ -23,7 +24,19 @@ class DataManager:
         self.sheet_data = self.get_sheet_data()
 
     def get_sheet_data(self):
-        return requests.get(SHEETY_ENDPOINT, headers=self.headers, auth=self.basic_auth).json()["prices"]
+        return requests.get(SHEETY_ENDPOINT_PRICES, headers=self.headers, auth=self.basic_auth).json()["prices"]
+    
+
+    def upload_user(self, first_name, last_name, email):
+        user = {
+            "user": {
+            "firstName": first_name,
+            "lastName": last_name,
+            "email": email
+            }
+        }
+
+        response = requests.post(SHEETY_ENDPOINT_USERS, json=user, headers=self.headers, auth=self.basic_auth)
     
     def fill_in_iata(self):
         for entry in self.sheet_data:
@@ -32,7 +45,7 @@ class DataManager:
                     "iataCode": self.getIataCodeForCity(entry['city'])
                     }
                 }
-            response = requests.put(SHEETY_ENDPOINT + f"/{entry['id']}", json=body, headers=self.headers, auth=self.basic_auth)
+            response = requests.put(SHEETY_ENDPOINT_PRICES + f"/{entry['id']}", json=body, headers=self.headers, auth=self.basic_auth)
 
     @staticmethod
     def getIataCodeForCity(city: str) -> str:

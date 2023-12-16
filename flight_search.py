@@ -7,7 +7,7 @@ with open("config.yml") as file:
     SHEETY_USER =  config["SHEETY_USER"]
     SHEETY_PASSWORD = config["SHEETY_PASSWORD"]
     AUTH_SHEETY = config["AUTH_SHEETY"]
-    SHEETY_ENDPOINT = config["SHEETY_ENDPOINT"]
+    SHEETY_ENDPOINT = config["SHEETY_ENDPOINT_PRICES"]
     KIWI_API_KEY = config["KIWI_API_KEY"]
     KIWI_ENDPOINT = config["KIWI_ENDPOINT"]
     HOMETOWN_IATA = config["HOMETOWN_IATA"]
